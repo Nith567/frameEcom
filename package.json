@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@airstack/frog": "^0.0.8",
+    "@aws-sdk/client-s3": "^3.100.0",
+    "@aws-sdk/s3-request-presigner": "^3.100.0",
+    "@fileverse/heartbit-react": "^2.3.0",
     "@nextui-org/react": "^2.2.10",
     "@privy-io/react-auth": "^1.59.5",
     "@tableland/sdk": "^6.0.0",
@@ -20,8 +23,6 @@
     "@vercel/og": "^0.6.2",
     "autoprefixer": "10.4.19",
     "aws-sdk": "^2.1603.0",
-    "@aws-sdk/client-s3": "^3.100.0",
-    "@aws-sdk/s3-request-presigner": "^3.100.0",
     "axios": "^1.6.8",
     "buffer": "^6.0.3",
     "eslint": "9.0.0",
