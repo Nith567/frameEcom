@@ -12,8 +12,8 @@ export async function checkApi(
             creator: string;
             id: number;
             metadata: string;
+            image:string,
             price?: number; 
-            streamId?: string;
             title: string; })=> item.creator === creatorAddress);
         return filteredData;
       } catch (error) {
