@@ -48,7 +48,8 @@ const handleFileChange = async (e: any) => {
 
       reader.readAsDataURL(file);
   });
-  const randomNumber = Math.floor(Math.random() * 1000000) + 1;
+  let randomNumber = Math.floor(Math.random() * 1000000) + 1;
+  let ran="img"+randomNumber
       const imageUrl = await imageUrlPromise;
       const imageData = imageUrl.split(";base64,");
 
@@ -60,8 +61,8 @@ const handleFileChange = async (e: any) => {
       const imageBuffer: any = Buffer.from(imageData[1], "base64");
       console.log('Image buffer: ', imageBuffer);
       // Assuming uploadFile is an asynchronous function
-      const uploadedUrl = await uploadFile(imageBuffer, randomNumber, 'image/png');
-      seturl(`https://image78bucket.s3.amazonaws.com/${randomNumber}`);
+      const uploadedUrl = await uploadFile(imageBuffer, ran,'image/png');
+      seturl(`https://image78bucket.s3.amazonaws.com/${ran}`);
       console.log(uploadedUrl);
   } catch (error) {
       console.error(error);
@@ -123,15 +124,15 @@ const orders=()=>{
 
     )}
 
-    <button onClick={orders} className='m-2 p-3 bg-orange-500 inline-block  hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg shadow-md'>
-    YourOrders
-  </button>
+
 
     {ready && authenticated && (
         <div>
    {user?.wallet?.address}
       <li>Google: {user?.google ? user?.google.email : 'None'}</li>
-    
+      <button onClick={orders} className='m-2 p-3 bg-orange-500 inline-block  hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg shadow-md'>
+    YourOrders
+  </button>
       {/* <button onClick={upload} className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">Upload</button> */}
         <div>
       <input type="file" onChange={handleFileChange} />
