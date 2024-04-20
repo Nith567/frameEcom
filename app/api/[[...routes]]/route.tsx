@@ -8,8 +8,6 @@ import { ethers } from 'ethers';
 import axios from 'axios';
 import { checkApi } from '@/utils/check';
 
-
-
 const app = new Frog({
   basePath: '/api',
   hub: neynar({ apiKey: process.env.NEYNAR_API_KEY as string}),
@@ -27,10 +25,8 @@ app.frame('/ecom/:ids', async (c) => {
   let owner = filteredData[0].address;
   return c.res({
     action: `/ecom2/${id}`,
-    // image: `${filteredData[0].image}`,
-     image: 'https://image78bucket.s3.amazonaws.com/class',
-
-    imageAspectRatio:"1.91:1",
+    image: `${filteredData[0].image}`,
+    imageAspectRatio:"1:1",
     headers:{
       'Content-Type': 'image/png'
     },
@@ -104,7 +100,7 @@ app.frame('/ecom2/:id', async (c) => {
     ]
   })}
   return c.res({
-    action: `/goto/${creatorAddress}`,
+    action: `/goto/${creatorAddress}/${id}`,
     image: (
       <div 
         style={{
@@ -145,8 +141,10 @@ console.log('owners , ' , owner,price);
   })
 })
 
-app.frame('/goto/:creatorAddress', (c) => {
+app.frame('/goto/:creatorAddress/:id', async(c) => {
   const owner  = c.req.param('creatorAddress');
+  const id = c.req.param('id');
+
   console.log('lol' ,owner)
   const { transactionId} = c
   return c.res({
@@ -166,7 +164,7 @@ app.frame('/goto/:creatorAddress', (c) => {
             : 'Transaction ...'}
       </div>
     ),
-    action:`/final/${owner}`,
+    action:`/final/${owner}/${id}`,
     intents: transactionId
     ? [
       <TextInput placeholder="(1/3-203 USA" />,
@@ -177,20 +175,26 @@ app.frame('/goto/:creatorAddress', (c) => {
   })
 })
 
-app.frame('/final/:owner',async (c)=>{
-  const owner=c.req.param("owner")
+app.frame('/final/:owner/:id',async (c)=>{
+  const address=c.req.param("owner")
   const { inputText = '' } = c
-const shippingAddress=inputText;
+  const id=c.req.param("id")
+  const ids = id.split('-');
+  const tableName = ids[0];
+  const creatorAddress = ids[1];
+  const filteredData = await checkApi(tableName, creatorAddress);
+
+const shippingAddress=inputText+ "for order ->  "+ filteredData[0].title + "- "+filteredData[0].metadata;
 console.log(shippingAddress);
 console.log('suiiii,',inputText);
-console.log('suii ',owner);
+console.log('suii ',address);
 
 try {
   await axios.post('http://localhost:4000/api/ship', {
-    owner,
+    
+    address,
     shippingAddress
   })
-console.log('done baby ');
 } catch (e) {
   console.log(e);
 }
