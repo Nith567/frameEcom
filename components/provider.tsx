@@ -1,7 +1,6 @@
 'use client';
 
 import {PrivyProvider} from '@privy-io/react-auth';
-import {defineChain} from 'viem';
 import {arbitrumSepolia } from 'viem/chains';
 
 export default function Providers({children}: {children: React.ReactNode}) {
@@ -19,6 +18,7 @@ export default function Providers({children}: {children: React.ReactNode}) {
         embeddedWallets: {
           createOnLogin: 'all-users',
         },
+        
       }}
     >
       {children}
