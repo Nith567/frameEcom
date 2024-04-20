@@ -145,7 +145,6 @@ app.frame('/goto/:creatorAddress/:id', async(c) => {
   const owner  = c.req.param('creatorAddress');
   const id = c.req.param('id');
 
-  console.log('lol' ,owner)
   const { transactionId} = c
   return c.res({
     image: (
@@ -185,9 +184,6 @@ app.frame('/final/:owner/:id',async (c)=>{
   const filteredData = await checkApi(tableName, creatorAddress);
 
 const shippingAddress=inputText+ "for order ->  "+ filteredData[0].title + "- "+filteredData[0].metadata;
-console.log(shippingAddress);
-console.log('suiiii,',inputText);
-console.log('suii ',address);
 
 try {
   await axios.post('http://localhost:4000/api/ship', {
